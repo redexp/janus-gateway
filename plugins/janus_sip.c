@@ -3061,6 +3061,9 @@ static void *janus_sip_handler(void *data) {
 					TAG_IF(strlen(custom_params) > 0, NUTAG_M_PARAMS(custom_params)),
 					SIPTAG_EXPIRES_STR(ttl_text),
 					NUTAG_REGISTRAR(proxy_text),
+//region =================== Fix for softphone - first call to softphone, then to device ==========
+					NUTAG_M_FEATURES("q=0.9"),
+//endregion
 					NUTAG_PROXY(obproxy_text),
 					TAG_END());
 				result = json_object();

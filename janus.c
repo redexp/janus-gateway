@@ -3470,6 +3470,12 @@ int janus_plugin_push_event(janus_plugin_session *plugin_session, janus_plugin *
 	}
 	/* Send the event */
 	JANUS_LOG(LOG_VERB, "[%"SCNu64"] Sending event to transport...\n", ice_handle->handle_id);
+
+//region ================ Send "janus.plugin.message" for portablic =======================
+	json_incref(event);
+    janus_events_notify_handlers(JANUS_EVENT_TYPE_PLUGIN, JANUS_EVENT_SUBTYPE_NONE, session->session_id, ice_handle->handle_id, ice_handle->opaque_id, "janus.plugin.message", event);
+//endregion
+
 	janus_session_notify_event(session, event);
 
 	if((restart || janus_flags_is_set(&ice_handle->webrtc_flags, JANUS_ICE_HANDLE_WEBRTC_RESEND_TRICKLES))
